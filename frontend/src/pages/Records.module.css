@@ -1,0 +1,248 @@
+.page {
+  display: grid;
+  gap: 1rem;
+}
+
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.subtitle {
+  margin: 0.35rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.panel,
+.summaryCard,
+.modalCard {
+  background: rgba(30, 41, 59, 0.9);
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  box-shadow: var(--shadow);
+}
+
+.panel {
+  padding: 1rem;
+}
+
+.summaryGrid {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.summaryCard {
+  padding: 1rem;
+}
+
+.summaryLabel {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.summaryValue {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 1.55rem;
+}
+
+.incomeCard {
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.expenseCard {
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.balanceCard {
+  border-color: rgba(99, 102, 241, 0.5);
+}
+
+.filterBar {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.filterLabel {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.select,
+.input,
+textarea.input {
+  width: 100%;
+  background: #0f172a;
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  padding: 0.65rem 0.75rem;
+}
+
+.input:focus,
+.select:focus,
+textarea.input:focus {
+  outline: none;
+  border-color: rgba(99, 102, 241, 0.85);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.18);
+}
+
+.error,
+.state {
+  border-radius: 0.8rem;
+  padding: 0.9rem 1rem;
+}
+
+.error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fecaca;
+}
+
+.state {
+  color: var(--text-muted);
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 820px;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 0.65rem 0.45rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+  font-size: 0.92rem;
+  vertical-align: top;
+}
+
+.table tbody tr:hover {
+  background: rgba(99, 102, 241, 0.08);
+}
+
+.emptyRow {
+  color: var(--text-muted);
+  text-align: center !important;
+}
+
+.badge {
+  display: inline-flex;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+
+.incomeBadge {
+  color: #86efac;
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+.expenseBadge {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.actions {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.primaryButton,
+.secondaryButton,
+.smallButton,
+.smallDanger {
+  border: none;
+  border-radius: 0.55rem;
+  padding: 0.55rem 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.primaryButton {
+  background: var(--accent);
+  color: #fff;
+}
+
+.primaryButton:hover {
+  background: var(--accent-strong);
+}
+
+.secondaryButton {
+  background: rgba(148, 163, 184, 0.18);
+  color: #e2e8f0;
+}
+
+.secondaryButton:hover {
+  background: rgba(148, 163, 184, 0.28);
+}
+
+.smallButton {
+  background: rgba(99, 102, 241, 0.2);
+  color: #e0e7ff;
+}
+
+.smallDanger {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fecaca;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.62);
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  z-index: 50;
+}
+
+.modalCard {
+  width: 100%;
+  max-width: 520px;
+  padding: 1rem;
+}
+
+.modalTitle {
+  margin: 0 0 0.8rem;
+}
+
+.label {
+  display: block;
+  margin: 0.6rem 0 0.25rem;
+  color: #cbd5e1;
+  font-size: 0.9rem;
+}
+
+.modalActions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+@media (min-width: 860px) {
+  .summaryGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
