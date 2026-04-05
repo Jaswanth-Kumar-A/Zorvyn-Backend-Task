@@ -254,3 +254,26 @@ After variables are saved, deploy both services. Visit:
 
 Using SQLite on most cloud runtimes is not durable across rebuilds/restarts.
 For reliable persistence in production, use a managed MySQL/PostgreSQL database and set `DATABASE_URL` accordingly.
+
+## Single Link Deployment (Vercel Frontend + Render Backend)
+
+If you want one public app link, deploy the frontend to Vercel and keep the backend on Render.
+The frontend then calls `/api`, and Vercel proxies that path to Render.
+
+### What to set in Vercel
+
+- Root directory: `frontend`
+- Environment variable: `BACKEND_URL=https://zorvyn-backend-task-q5ig.onrender.com`
+
+### What to set in Render
+
+- Keep the backend service running on Render.
+- If you want direct browser access to the backend too, add your Vercel URL to `CORS_ORIGINS`.
+
+### Recommended Render CORS value
+
+- `CORS_ORIGINS=https://zorvyn-backend-task-seven.vercel.app`
+
+### Result
+
+Your users open only the Vercel URL, and all API calls go through the same domain via `/api`.
