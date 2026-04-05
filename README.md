@@ -1,6 +1,6 @@
 # Finance Dashboard Backend
 
-A production-ready backend API for a Finance Dashboard built with FastAPI, MySQL, SQLAlchemy ORM, and JWT-based authentication.
+A production-ready backend API for a Finance Dashboard built with FastAPI, SQLAlchemy ORM, and JWT-based authentication.
 
 ## Project Overview
 
@@ -16,7 +16,7 @@ The API is designed for frontend dashboards or internal finance tools that requi
 
 - **Framework:** FastAPI
 - **Language:** Python 3.10+
-- **Database:** MySQL
+- **Database:** SQLite (default) or MySQL
 - **ORM:** SQLAlchemy
 - **Authentication:** JWT (`python-jose`)
 - **Password Hashing:** Passlib (`bcrypt`)
@@ -86,12 +86,14 @@ pip install -r requirements.txt
 
 Copy `.env.example` to `.env`, then set real credentials/secrets.
 
-### 5) Ensure MySQL database exists
+### 5) Choose a database
 
-Create database in MySQL (example):
-```sql
-CREATE DATABASE finance_dashboard;
+By default, this project uses a persistent SQLite database file:
+```env
+DATABASE_URL=sqlite:///./finance_dashboard.db
 ```
+
+If you want MySQL instead, clear `DATABASE_URL` and provide MySQL credentials in `.env`.
 
 ### 6) Run the API
 
@@ -110,11 +112,12 @@ Required variables:
 
 | Variable | Description | Example |
 |---|---|---|
-| `MYSQL_HOST` | MySQL host | `localhost` |
-| `MYSQL_PORT` | MySQL port | `3306` |
-| `MYSQL_USER` | MySQL username | `root` |
-| `MYSQL_PASSWORD` | MySQL password | `your_password` |
-| `MYSQL_DATABASE` | Target database name | `finance_dashboard` |
+| `DATABASE_URL` | Full SQLAlchemy database URL (recommended) | `sqlite:///./finance_dashboard.db` |
+| `MYSQL_HOST` | MySQL host (used when `DATABASE_URL` is empty) | `localhost` |
+| `MYSQL_PORT` | MySQL port (used when `DATABASE_URL` is empty) | `3306` |
+| `MYSQL_USER` | MySQL username (used when `DATABASE_URL` is empty) | `root` |
+| `MYSQL_PASSWORD` | MySQL password (used when `DATABASE_URL` is empty) | `your_password` |
+| `MYSQL_DATABASE` | Target database name (used when `DATABASE_URL` is empty) | `finance_dashboard` |
 | `CORS_ORIGINS` | Comma-separated allowed origins | `http://localhost:3000,http://127.0.0.1:3000` |
 | `JWT_SECRET_KEY` | JWT signing secret (use strong value) | `replace_with_strong_secret` |
 | `JWT_ALGORITHM` | JWT algorithm | `HS256` |
@@ -204,3 +207,50 @@ Global exception handlers include:
 - Restrict role assignment during registration (admin-only role elevation)
 - Add unit/integration tests for auth, permissions, and analytics endpoints
 - Add Docker support for local dev parity
+
+## Deployment (Render)
+
+This repository is now ready to deploy with [render.yaml](render.yaml).
+
+### 1) Push code to GitHub
+
+Render deploys from your Git repository, so commit and push your latest changes.
+
+### 2) Create Blueprint on Render
+
+1. Open Render dashboard.
+2. Choose **New +** -> **Blueprint**.
+3. Select this repository.
+4. Render will detect `render.yaml` and propose:
+	 - `zorvyn-finance-backend` (FastAPI web service)
+	 - `zorvyn-finance-frontend` (Vite static site)
+
+### 3) Configure backend environment variables
+
+Set these in Render for `zorvyn-finance-backend`:
+
+- `DATABASE_URL`: Use a managed DB URL for production persistence.
+	- Example MySQL URL: `mysql+pymysql://user:password@host:3306/finance_dashboard`
+- `JWT_SECRET_KEY`: Use a long random secret.
+- `CORS_ORIGINS`: Set to your frontend URL.
+	- Example: `https://zorvyn-finance-frontend.onrender.com`
+- `DEMO_AUTH_BYPASS=false`
+
+### 4) Configure frontend environment variable
+
+Set this in Render for `zorvyn-finance-frontend`:
+
+- `VITE_API_BASE_URL`: Backend public URL.
+	- Example: `https://zorvyn-finance-backend.onrender.com`
+
+### 5) Trigger deploy
+
+After variables are saved, deploy both services. Visit:
+
+- Frontend: `https://<your-frontend>.onrender.com`
+- Backend docs: `https://<your-backend>.onrender.com/docs`
+
+### Important persistence note
+
+Using SQLite on most cloud runtimes is not durable across rebuilds/restarts.
+For reliable persistence in production, use a managed MySQL/PostgreSQL database and set `DATABASE_URL` accordingly.
